@@ -10,13 +10,15 @@ const infoCountry = document.querySelector('.country-info');
 
 fieldFindCountry.addEventListener(
   'input',
-  debounce(() => {
-    fetchCountries()
+  debounce(el => {
+    const elementFind = el.data;
+    // console.log(elementFind);
+    fetchCountries(elementFind)
       .then(countries => {
-        if (countries.length > 1 && countries.length < 11) {
-          countries => renderListCountry(countries);
-        }
-        countries => renderinfoCountry(countries);
+        // if (countries.length > 1 && countries.length < 11) {
+        //   countries => renderListCountry(countries);
+        // }
+        renderinfoCountry(countries);
       })
 
       .catch(error => console.log(error));
@@ -25,11 +27,8 @@ fieldFindCountry.addEventListener(
 );
 
 Notiflix.Notify.success('Sol lucet omnibus');
-
 Notiflix.Notify.failure('Qui timide rogat docet negare');
-
 Notiflix.Notify.warning('Memento te hominem esse');
-
 Notiflix.Notify.info('Cogito ergo sum');
 
 // https://restcountries.eu/rest/v2/{service}?fields={field};{field};{field}
@@ -37,23 +36,25 @@ Notiflix.Notify.info('Cogito ergo sum');
 
 // 'https://restcountries.eu/rest/v2/all?fields=name.official;capital;population;flags.svg;languages'
 
-fetchCountries(
-  'https://restcountries.com/v3.1/all?fields=name,capital,currencies'
-)
-  .then(response => {
+function fetchCountries() {
+  return fetch('https://restcountries.com/v3.1/all').then(response => {
     if (!response.ok) {
       throw new Error(response.status);
     }
+
     return response.json();
     // Response handling
-  })
-  .then(data => {
-    // Data handling
-  })
-  .catch(error => {
-    // Error handling
   });
-
+  // .then(data => {
+  //   console.log();
+  //   // Data handling
+  // })
+  // .catch(error => {
+  //   // Error handling
+  // });
+}
 function renderListCountry(countries) {}
 
-function renderinfoCountry(countries) {}
+function renderinfoCountry(countries) {
+  console.log(countries);
+}
