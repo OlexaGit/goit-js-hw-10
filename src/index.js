@@ -12,8 +12,8 @@ fieldFindCountry.addEventListener(
   'input',
   debounce(el => {
     const elementFind = el.data;
-    // console.log(elementFind);
-    fetchCountries(elementFind)
+    console.log(elementFind);
+    fetchCountries()
       .then(countries => {
         // if (countries.length > 1 && countries.length < 11) {
         //   countries => renderListCountry(countries);
@@ -37,11 +37,13 @@ Notiflix.Notify.info('Cogito ergo sum');
 // 'https://restcountries.eu/rest/v2/all?fields=name.official;capital;population;flags.svg;languages'
 
 function fetchCountries() {
-  return fetch('https://restcountries.com/v3.1/all').then(response => {
+  // console.dir(typeof findEl);
+  return fetch(
+    'https://restcountries.com/v3.1/all?fields=name;capital;currencies;population;flags.svg;languages'
+  ).then(response => {
     if (!response.ok) {
       throw new Error(response.status);
     }
-
     return response.json();
     // Response handling
   });
