@@ -12,12 +12,10 @@ fieldFindCountry.addEventListener(
   'input',
   debounce(el => {
     const elementFind = el.data;
-    console.log(elementFind);
-    fetchCountries()
+    // console.log(elementFind);
+    // import fetchCountries from './fetchCountries.js';
+    fetchCountries(elementFind)
       .then(countries => {
-        // if (countries.length > 1 && countries.length < 11) {
-        //   countries => renderListCountry(countries);
-        // }
         renderinfoCountry(countries);
       })
 
@@ -26,37 +24,25 @@ fieldFindCountry.addEventListener(
   }, DEBOUNCE_DELAY)
 );
 
-Notiflix.Notify.success('Sol lucet omnibus');
-Notiflix.Notify.failure('Qui timide rogat docet negare');
-Notiflix.Notify.warning('Memento te hominem esse');
-Notiflix.Notify.info('Cogito ergo sum');
+// Notiflix.Notify.success('Sol lucet omnibus');
+// Notiflix.Notify.failure('Qui timide rogat docet negare');
+// Notiflix.Notify.warning('Memento te hominem esse');
+// Notiflix.Notify.info('Cogito ergo sum');
 
-// https://restcountries.eu/rest/v2/{service}?fields={field};{field};{field}
-// https://restcountries.eu/rest/v2/all?fields=name;capital;currencies
-
-// 'https://restcountries.eu/rest/v2/all?fields=name.official;capital;population;flags.svg;languages'
-
-function fetchCountries() {
-  // console.dir(typeof findEl);
-  return fetch(
-    'https://restcountries.com/v3.1/all?fields=name;capital;currencies;population;flags.svg;languages'
-  ).then(response => {
-    if (!response.ok) {
-      throw new Error(response.status);
+function fetchCountries(elemInput) {
+  console.log(elemInput);
+  return fetch('https://restcountries.com/v3.1/name/${elemInput}').then(
+    response => {
+      if (!response.ok) {
+        throw new Error(response.status);
+      }
+      return response.json();
     }
-    return response.json();
-    // Response handling
-  });
-  // .then(data => {
-  //   console.log();
-  //   // Data handling
-  // })
-  // .catch(error => {
-  //   // Error handling
-  // });
+  );
 }
-function renderListCountry(countries) {}
+// function renderListCountry(countries) {}
 
+// 'https://restcountries.com/v3.1/all?fields=name;capital;currencies;population;flags.svg;languages'
 function renderinfoCountry(countries) {
   console.log(countries);
 }
