@@ -7,21 +7,31 @@ const DEBOUNCE_DELAY = 300;
 const fieldFindCountry = document.querySelector('#search-box');
 const listСountry = document.querySelector('.country-list');
 const infoCountry = document.querySelector('.country-info');
-let elementFind = '';
+
 fieldFindCountry.addEventListener(
   'input',
   debounce(
     event => {
-      let elementFind = event.target.value;
-      console.log(event);
+      const elementFind = event.target.value;
       console.dir(elementFind);
       // import fetchCountries from './fetchCountries.js';
       fetchCountries(elementFind)
-        .then(renderinfoCountry)
+        // .then(renderinfoCountry)
+        .then(countries => {
+          if (countries.length > 10) {
+            Notiflix.Notify.info(
+              'Too many matches found. Please enter a more specific name.'
+            );
+            return;
+          } else {
+            if (countries.length === 1) {
+              renderinfoCountry(countries);
+            } else {
+              renderCountrybetweenTwoAndTen(countries);
+            }
+          }
+        })
         .catch(error => console.log(error));
-      Notiflix.Notify.success(
-        'Too many matches found. Please enter a more specific name.'
-      );
     },
     DEBOUNCE_DELAY
     // {
@@ -37,9 +47,9 @@ fieldFindCountry.addEventListener(
 // Notiflix.Notify.info('Cogito ergo sum');
 
 function fetchCountries(name) {
-  console.log(name);
+  // console.log(name);
   return fetch(
-    `https://restcountries.com/v3.1/name/${name}?fields=name;capital;currencies;population;flags.svg;languages`
+    `https://restcountries.com/v3.1/name/${name}?fields=name;fields=capital;fields=currencies;fields=population;fields=flags;fields=languages`
   ).then(response => {
     if (!response.ok) {
       throw new Error(response.status);
@@ -47,9 +57,11 @@ function fetchCountries(name) {
     return response.json();
   });
 }
-// function renderCountrybetweenTwoAndTen(countries) {}
 
-// 'https://restcountries.com/v3.1/all?fields=name;capital;currencies;population;flags.svg;languages'
+function renderCountrybetweenTwoAndTen(countries) {
+  console.log('between Two And Ten country info');
+}
+
 function renderinfoCountry(countries) {
-  console.log(countries);
+  console.log('ONE country info');
 }
