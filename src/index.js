@@ -16,6 +16,7 @@ fieldFindCountry.addEventListener(
     event => {
       const elementFind = event.target.value;
       if (elementFind === '') {
+        clear();
         return;
       }
       // console.dir(elementFind);
@@ -24,8 +25,7 @@ fieldFindCountry.addEventListener(
         // .then(renderinfoCountry)
         .then(countries => {
           if (countries.length > 10) {
-            listСountry.innerHTML = '';
-            infoCountry.innerHTML = '';
+            clear();
             Notiflix.Notify.info(
               'Too many matches found. Please enter a more specific name.'
             );
@@ -40,9 +40,10 @@ fieldFindCountry.addEventListener(
             }
           }
         })
-        .catch(error =>
-          Notiflix.Notify.failure('Oops, there is no country with that name')
-        );
+        .catch(error => {
+          clear();
+          Notiflix.Notify.failure('Oops, there is no country with that name');
+        });
     },
     DEBOUNCE_DELAY
     // {
@@ -103,4 +104,9 @@ function renderInfoOneCountry(countries) {
     .join('');
 
   infoCountry.innerHTML = markup;
+}
+
+function clear() {
+  listСountry.innerHTML = '';
+  infoCountry.innerHTML = '';
 }
