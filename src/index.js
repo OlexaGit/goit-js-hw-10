@@ -85,13 +85,11 @@ function renderCountrybetweenTwoAndTen(countries) {
 function renderInfoOneCountry(countries) {
   // console.log(countries);
   // console.log(countries[0].currencies);
-
   const currenciesName = Object.values(
     Object.values(countries[0].currencies)[0].name
   ).join('');
   const languagesName = Object.values(countries[0].languages).join(', ');
   // console.log(currenciesName);
-
   const markup = countries
     .flatMap(({ flags: { png, alt }, name, capital, population }) => {
       return `        
@@ -102,7 +100,6 @@ function renderInfoOneCountry(countries) {
       <div style="font-weight:400"><span style="font-weight:700">Languages:</span> ${languagesName}</div>`;
     })
     .join('');
-
   infoCountry.innerHTML = markup;
 }
 
