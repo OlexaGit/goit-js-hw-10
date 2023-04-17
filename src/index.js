@@ -76,7 +76,7 @@ function renderCountrybetweenTwoAndTen(countries) {
   const markup = countries
     .flatMap(({ flags: { png, alt }, name }) => {
       return `
-      <li><img src="${png}" width="30" alt="${alt}"></img>  ${name.common}</li>`;
+      <li><img src="${png}" width="30" alt="${alt}"></img>  ${name.official}</li>`;
     })
     .join('');
   listСountry.innerHTML = markup;
