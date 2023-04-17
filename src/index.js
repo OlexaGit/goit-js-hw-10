@@ -19,14 +19,18 @@ fieldFindCountry.addEventListener(
         // .then(renderinfoCountry)
         .then(countries => {
           if (countries.length > 10) {
+            listСountry.innerHTML = '';
+            infoCountry.innerHTML = '';
             Notiflix.Notify.info(
               'Too many matches found. Please enter a more specific name.'
             );
             return;
           } else {
             if (countries.length === 1) {
-              renderinfoCountry(countries);
+              listСountry.innerHTML = '';
+              renderInfoOneCountry(countries);
             } else {
+              infoCountry.innerHTML = '';
               renderCountrybetweenTwoAndTen(countries);
             }
           }
@@ -62,49 +66,36 @@ function fetchCountries(name) {
 
 function renderCountrybetweenTwoAndTen(countries) {
   console.log(countries);
-  console.log('between Two And Ten country info');
+  // console.log('between Two And Ten country info');
   const markup = countries
-    .map(country => {
-      return `<li>${country.name} Hello</li>`;
+    .flatMap(({ flags: { png, alt }, name }) => {
+      return `
+      <li fontSize="30"><img src="${png}" width="30" alt="${alt}"></img>  ${name.common}</li>`;
     })
     .join('');
   listСountry.innerHTML = markup;
-  // listСountry.insertAdjacentHTML('beforeend', markup);
-  console.log(markup);
 }
 
-function renderinfoCountry(countries) {
+function renderInfoOneCountry(countries) {
   console.log(countries);
-  console.log('ONE country info');
-  const languagesName = {};
   console.log(countries[0].currencies);
-  console.log(countries[0].languages);
-  const currenciesName = Object.keys(countries[0].currencies);
+  // const currenciesNames = Object.values(countries[0].currencies);
+  const currenciesName = Object.values(
+    Object.values(countries[0].currencies)[0].name
+  ).join('');
+  const languagesName = Object.values(countries[0].languages).join(', ');
   console.log(currenciesName);
+
   const markup = countries
-    .flatMap(
-      ({
-        flags: { png, svg, alt },
-        name,
-        capital,
-        currencies,
-        population,
-        languages: { ukr },
-      }) => {
-        return `        
-      <div><img src="${svg}" width="30" alt="${alt}"></img>${name.official}</div>
-      <div>Capital: ${capital}</div>
+    .flatMap(({ flags: { png, alt }, name, capital, population }) => {
+      return `        
+      <div fontSize="30"><img src="${png}" width="30" alt="${alt}"></img>  ${name.common}</div>
+      <div fontSize = "30px">Capital: ${capital}</div>
       <div>Currencies: ${currenciesName}</div>
       <div>Population: ${population}</div>
-      <div>Languages: ${ukr}</div>`;
-      }
-    )
+      <div>Languages: ${languagesName}</div>`;
+    })
     .join('');
-  // listСountry.innerHTML = markup;
-  listСountry.insertAdjacentHTML('beforeend', markup);
-  console.log(markup);
-}
 
-{
-  /* <img src="${svg}" alt="${alt}"></img>; */
+  infoCountry.innerHTML = markup;
 }
