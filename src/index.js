@@ -31,7 +31,9 @@ fieldFindCountry.addEventListener(
             }
           }
         })
-        .catch(error => console.log(error));
+        .catch(error =>
+          Notiflix.Notify.failure('Oops, there is no country with that name')
+        );
     },
     DEBOUNCE_DELAY
     // {
@@ -59,9 +61,50 @@ function fetchCountries(name) {
 }
 
 function renderCountrybetweenTwoAndTen(countries) {
+  console.log(countries);
   console.log('between Two And Ten country info');
+  const markup = countries
+    .map(country => {
+      return `<li>${country.name} Hello</li>`;
+    })
+    .join('');
+  listСountry.innerHTML = markup;
+  // listСountry.insertAdjacentHTML('beforeend', markup);
+  console.log(markup);
 }
 
 function renderinfoCountry(countries) {
+  console.log(countries);
   console.log('ONE country info');
+  const languagesName = {};
+  console.log(countries[0].currencies);
+  console.log(countries[0].languages);
+  const currenciesName = Object.keys(countries[0].currencies);
+  console.log(currenciesName);
+  const markup = countries
+    .flatMap(
+      ({
+        flags: { png, svg, alt },
+        name,
+        capital,
+        currencies,
+        population,
+        languages: { ukr },
+      }) => {
+        return `        
+      <div><img src="${svg}" width="30" alt="${alt}"></img>${name.official}</div>
+      <div>Capital: ${capital}</div>
+      <div>Currencies: ${currenciesName}</div>
+      <div>Population: ${population}</div>
+      <div>Languages: ${ukr}</div>`;
+      }
+    )
+    .join('');
+  // listСountry.innerHTML = markup;
+  listСountry.insertAdjacentHTML('beforeend', markup);
+  console.log(markup);
+}
+
+{
+  /* <img src="${svg}" alt="${alt}"></img>; */
 }
