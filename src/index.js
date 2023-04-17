@@ -8,12 +8,17 @@ const fieldFindCountry = document.querySelector('#search-box');
 const listСountry = document.querySelector('.country-list');
 const infoCountry = document.querySelector('.country-info');
 
+listСountry.style.fontSize = '24px';
+
 fieldFindCountry.addEventListener(
   'input',
   debounce(
     event => {
       const elementFind = event.target.value;
-      console.dir(elementFind);
+      if (elementFind === '') {
+        return;
+      }
+      // console.dir(elementFind);
       // import fetchCountries from './fetchCountries.js';
       fetchCountries(elementFind)
         // .then(renderinfoCountry)
@@ -70,30 +75,30 @@ function renderCountrybetweenTwoAndTen(countries) {
   const markup = countries
     .flatMap(({ flags: { png, alt }, name }) => {
       return `
-      <li fontSize="30"><img src="${png}" width="30" alt="${alt}"></img>  ${name.common}</li>`;
+      <li><img src="${png}" width="30" alt="${alt}"></img>  ${name.common}</li>`;
     })
     .join('');
   listСountry.innerHTML = markup;
 }
 
 function renderInfoOneCountry(countries) {
-  console.log(countries);
-  console.log(countries[0].currencies);
-  // const currenciesNames = Object.values(countries[0].currencies);
+  // console.log(countries);
+  // console.log(countries[0].currencies);
+
   const currenciesName = Object.values(
     Object.values(countries[0].currencies)[0].name
   ).join('');
   const languagesName = Object.values(countries[0].languages).join(', ');
-  console.log(currenciesName);
+  // console.log(currenciesName);
 
   const markup = countries
     .flatMap(({ flags: { png, alt }, name, capital, population }) => {
       return `        
-      <div fontSize="30"><img src="${png}" width="30" alt="${alt}"></img>  ${name.common}</div>
-      <div fontSize = "30px">Capital: ${capital}</div>
-      <div>Currencies: ${currenciesName}</div>
-      <div>Population: ${population}</div>
-      <div>Languages: ${languagesName}</div>`;
+      <div style="font-size:30px"><img src="${png}" width="30" alt="${alt}"></img>  ${name.common}</div>
+      <div style="font-weight:400"><span style="font-weight:700">Capital:</span> ${capital}</div>
+      <div style="font-weight:400"><span style="font-weight:700">Currencies:</span> ${currenciesName}</div>
+      <div style="font-weight:400"><span style="font-weight:700">Population:</span> ${population}</div>
+      <div style="font-weight:400"><span style="font-weight:700">Languages:</span> ${languagesName}</div>`;
     })
     .join('');
 
