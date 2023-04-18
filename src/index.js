@@ -14,7 +14,7 @@ fieldFindCountry.addEventListener(
   'input',
   debounce(
     event => {
-      const elementFind = event.target.value;
+      const elementFind = event.target.value.trim();
       if (elementFind === '') {
         clear();
         return;
@@ -85,15 +85,14 @@ function renderCountrybetweenTwoAndTen(countries) {
 function renderInfoOneCountry(countries) {
   // console.log(countries);
   // console.log(countries[0].currencies);
-  const currenciesName = Object.values(
-    Object.values(countries[0].currencies)[0].name
-  ).join('');
+  const ArrayOjectCurrencies = Object.values(countries[0].currencies);
+  const currenciesName = ArrayOjectCurrencies.map(elem => elem.name).join(', ');
   const languagesName = Object.values(countries[0].languages).join(', ');
   // console.log(currenciesName);
   const markup = countries
     .flatMap(({ flags: { png, alt }, name, capital, population }) => {
       return `        
-      <div style="font-size:30px"><img src="${png}" width="30" alt="${alt}"></img>  ${name.common}</div>
+      <div style="font-size:30px"><img src="${png}" width="30" alt="${alt}"></img>  ${name.official}</div>
       <div style="font-weight:400"><span style="font-weight:700">Capital:</span> ${capital}</div>
       <div style="font-weight:400"><span style="font-weight:700">Currencies:</span> ${currenciesName}</div>
       <div style="font-weight:400"><span style="font-weight:700">Population:</span> ${population}</div>
