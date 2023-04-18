@@ -1,6 +1,7 @@
 import './css/styles.css';
 import Notiflix from 'notiflix';
 import debounce from 'lodash.debounce';
+import { fetchCountries } from './fetchCountries';
 
 const DEBOUNCE_DELAY = 300;
 
@@ -19,10 +20,7 @@ fieldFindCountry.addEventListener(
         clear();
         return;
       }
-      // console.dir(elementFind);
-      // import fetchCountries from './fetchCountries.js';
       fetchCountries(elementFind)
-        // .then(renderinfoCountry)
         .then(countries => {
           if (countries.length > 10) {
             clear();
@@ -53,26 +51,8 @@ fieldFindCountry.addEventListener(
   )
 );
 
-// Notiflix.Notify.success('Sol lucet omnibus');
-// Notiflix.Notify.failure('Qui timide rogat docet negare');
-// Notiflix.Notify.warning('Memento te hominem esse');
-// Notiflix.Notify.info('Cogito ergo sum');
-
-function fetchCountries(name) {
-  // console.log(name);
-  return fetch(
-    `https://restcountries.com/v3.1/name/${name}?fields=name;fields=capital;fields=currencies;fields=population;fields=flags;fields=languages`
-  ).then(response => {
-    if (!response.ok) {
-      throw new Error(response.status);
-    }
-    return response.json();
-  });
-}
-
 function renderCountrybetweenTwoAndTen(countries) {
-  console.log(countries);
-  // console.log('between Two And Ten country info');
+  // console.log(countries);
   const markup = countries
     .flatMap(({ flags: { png, alt }, name }) => {
       return `
@@ -83,7 +63,6 @@ function renderCountrybetweenTwoAndTen(countries) {
 }
 
 function renderInfoOneCountry(countries) {
-  // console.log(countries);
   // console.log(countries[0].currencies);
   const ArrayOjectCurrencies = Object.values(countries[0].currencies);
   const currenciesName = ArrayOjectCurrencies.map(elem => elem.name).join(', ');
